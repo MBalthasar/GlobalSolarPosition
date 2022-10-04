@@ -18,7 +18,7 @@ The following functions are currently available:
 
 An interactive Google Earth Engine application for visualizing the solar elevation, zenith, and azimuth angles for a given date and time on a global scale can be [accessed here](https://mbalthasarphilipp.users.earthengine.app/view/globalsolarposition).
 
-<img src="img/solar-surface-animation.gif" width=1000>
+<img src="img/gee_app.gif" width=1000>
 
 ## Citation
 Philipp, M. (2022): GobalSolarPosition V.1.0. Zenodo. https://doi.org/10.5281/zenodo.7139847.
