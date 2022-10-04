@@ -209,7 +209,7 @@ c.legend2.panel = ui.Panel([
 
 // Panel for values after user clicks on map
 c.click = {};
-c.click.title = ui.Label('Click on map to retreive values');
+c.click.title = ui.Label('Click on map to extract values');
 c.click.leftLabel = ui.Label();
 c.click.centerLabel = ui.Label();
 c.click.rightLabel = ui.Label();
