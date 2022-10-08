@@ -1,7 +1,7 @@
 # GlobalSolarPosition
 [![DOI](https://zenodo.org/badge/544945169.svg)](https://zenodo.org/badge/latestdoi/544945169)
 
-Global computation of the solar position at a given time in Google Earth Engine. The calculations of the solar zenith and azimuth angles are based on the [following equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF).
+Global computation of the solar position at a given time in Google Earth Engine. The calculations of the solar zenith and azimuth angles are based on the [following equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF). The angles are computed for a given local time with respect to the present time zone based on the [Natural Earth time zones dataset](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/timezones/).
 
 <img src="img/solar-surface-animation.gif" width=1000>
 
@@ -11,7 +11,7 @@ Global computation of the solar position at a given time in Google Earth Engine.
 The following functions are currently available:
 
 * `Solar_Position_Function` Script for computing the the solar elevation, zenith, and azimuth angles for a given date and time on a global scale.
-* `Solar_Surface_Position_Function` Script for computing the the solar-surface elevation, zenith, and azimuth angles for a given date and time on a global scale. The angles hereby represent the solar elevation, zenith, and azimuth relative the surface's slope and aspect based on the selected digital elevation model (DEM).
+* `Solar_Surface_Position_Function` Script for computing the the solar-surface elevation, zenith, and azimuth angles for a given date and time on a global scale. The angles hereby represent the solar elevation, zenith, and azimuth relative the surface's slope and aspect based on a given digital elevation model (DEM).
 
 
 ## Google Earth Engine Application
