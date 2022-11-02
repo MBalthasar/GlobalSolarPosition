@@ -4,7 +4,7 @@
 //              the solar elevation, zenith, and azimuth angles for a given
 //              date and time on a global scale.
 // Author: Marius Philipp
-// Date: 2022-10-03
+// Date: 2022-11-02
 //  
 //==========================================================================//
 
@@ -52,6 +52,16 @@ var glo30 = ee.ImageCollection("projects/sat-io/open-datasets/GLO-30")
 
 // Combine images to ImageCollection
 var dem_col = ee.ImageCollection([alos, glo30, srtm]);
+
+
+
+///// ------------------ \\\\\
+/// Import Country Borders \\\
+///// ------------------ \\\\\
+
+
+// Load country borders
+var country_borders = ee.FeatureCollection("USDOS/LSIB_SIMPLE/2017");
 
 
 
@@ -499,6 +509,7 @@ c.click.panel.style().set({
 c.click.panel.style().set(s.opacityWhiteMed);
 c.click.labelPanel.style().set(s.opacityWhiteNone);
 
+// Define style for country borders
 s.countryborders = {
     'color': '#FFEFCA', 
     'pointSize': 3,
@@ -512,6 +523,20 @@ s.countryborders = {
 /*******************************************************************************
  *                            Behavior Section                                 *
  ******************************************************************************/
+
+
+// Define function on CountryBorders
+function countryBorders(){
+  // Define layer to map
+  var layer = ui.Map.Layer({
+    eeObject: country_borders.style(s.countryborders),
+    visParams: {},
+    name: 'Country Borders',
+    opacity: 0.5
+  });
+  // Add layer to map
+  c.map.layers().set(2, layer); // Define nth layer
+}
 
 
 // Define callback function on DEM selection
@@ -941,3 +966,4 @@ updateDEM();
 updateLayer();
 updateLegend();
 updateLegend2();
+countryBorders();
