@@ -11,6 +11,9 @@
 /// Prepare data \\\
 ///// -------- \\\\\
 
+// Define aoi
+var my_aoi = ee.Geometry.Rectangle([[10.49, 47.16], [11.31, 47.5]]);
+
 // Zoom to aoi
 Map.centerObject(my_aoi);
 
@@ -23,7 +26,7 @@ var dem = ee.Image("USGS/SRTMGL1_003")
 
 // Add dem to map
 Map.addLayer(dem, {palette: ['grey', 'lightgreen', 'khaki', 'brown', 'white'], 
-                   min:0, max:3000}, 'DEM');
+                   min:500, max:2800}, 'DEM');
 
 // Define dates
 var start_date = ee.Date('2022-08-27T05:00:00');
@@ -90,9 +93,20 @@ var solar_col = ee.ImageCollection.fromImages(
                                                     zenith: zenith_value, 
                                                     neighborhoodSize: 1000});
       var hillshadow = hillillumination.eq(0);
+      // Apply moving window on hill shadow and hill illumiation
+      var hillshadow_mv = hillshadow.reduceNeighborhood({
+        reducer: ee.Reducer.mode(),
+        kernel: ee.Kernel.square({radius: 2.5, 
+                                  units: 'pixels'}),
+        });
+      var hillillumination_mv = hillillumination.reduceNeighborhood({
+        reducer: ee.Reducer.mode(),
+        kernel: ee.Kernel.square({radius: 2.5, 
+                                  units: 'pixels'}),
+        });
       // Return ImageCollection add meta-information
-      return hillshadow.rename('Hill Shadow')
-        .addBands(hillillumination.rename('Hill Illumination'))
+      return hillshadow_mv.rename('Hill Shadow')
+        .addBands(hillillumination_mv.rename('Hill Illumination'))
         .set('Date', date)
         .set('Year', current_year)
         .set('DOY', current_doy)
@@ -147,7 +161,7 @@ var current_col_video =  current_col.map(function(image){
 // Define annotation properties
 var annotations_properties = [{
     position: 'left', offset: '2%', margin: '2%', 
-    property: 'label', scale: Map.getScale() * 2}];
+    property: 'label', scale: Map.getScale() * 3, palette: ["red"]}];
 
 // Add annotations
 current_col_video = current_col_video.map(function(image) {
@@ -165,14 +179,13 @@ animation.animate(current_col_video, {maxFrames: current_col_video.size()});
 // Define visualization properties and label of sun hours image
 var sun_hours_img = sun_hours.visualize({
     forceRgbOutput: true,
-    min: 6,
-    max: 13.5,
+    min: 7,
+    max: 14,
     palette: ['black', 'white']
   }).set({label:'Total Solar Hours'});
-print("sun_hours_img", sun_hours_img);
 
 // Add annotation to image
 var annotated = text.annotateImage(sun_hours_img, {}, my_aoi, annotations_properties);
 
 // Visualize image
-Map.addLayer(annotated);
+//Map.addLayer(annotated);
